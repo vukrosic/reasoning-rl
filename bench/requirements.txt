@@ -1,0 +1,9 @@
+# Eval harness deps. Install on a CUDA GPU box (torch must be PREINSTALLED --
+# we never install torch here so the box's CUDA build isn't clobbered).
+# Qwen3.5 needs vllm >= 0.17 to load its Gated-DeltaNet arch (0.16 fails);
+# verified working on vllm 0.24 + transformers 5.13, 2026-07-09.
+vllm>=0.17.0
+transformers>=5.13.0
+datasets>=2.19.0
+huggingface_hub>=0.24.0
+math_verify>=0.5.0   # symbolic MATH grading; harness falls back if absent

@@ -23,6 +23,25 @@ RL mostly surfaces ability the model already has.
 
 ---
 
+## Current track — [`bench/`](./bench): beat official Qwen3.5-0.8B, apples-to-apples
+
+Take `Qwen/Qwen3.5-0.8B-Base`, run *our* GRPO on it, compare vs Qwen's official
+`Qwen/Qwen3.5-0.8B` on the same GSM8K + MATH-500 board. Same base, same size —
+only the post-training recipe differs.
+
+Baseline of the official model (GSM8K test, n=100, RTX 5060 Ti, 2026-07-09):
+
+| mode | pass@1 | note |
+|------|--------|------|
+| terminating (`--no-think`) | **48.0%** | real capability baseline |
+| thinking on | **11.0%** | Qwen3.5-0.8B's documented thinking-loop — 100% of traces never close `</think>`; an artifact of non-termination, not capability |
+
+Thinking mode *lowers* the score by looping instead of stopping. Fixing
+termination while keeping real reasoning is what GRPO targets here. Scoreboard
+harness + reproduce steps in [`bench/`](./bench).
+
+---
+
 ## PART 1 — Do this, top to bottom
 
 > **Stuck on SSH / renting the GPU? Paste this into ChatGPT/Claude/any AI:**
