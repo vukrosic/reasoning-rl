@@ -29,16 +29,17 @@ Take `Qwen/Qwen3.5-0.8B-Base`, run *our* GRPO on it, compare vs Qwen's official
 `Qwen/Qwen3.5-0.8B` on the same GSM8K + MATH-500 board. Same base, same size —
 only the post-training recipe differs.
 
-Baseline of the official model (GSM8K test, n=100, RTX 5060 Ti, 2026-07-09):
+Baseline of the official model (n=100, RTX 5060 Ti, 2026-07-09):
 
-| mode | pass@1 | note |
-|------|--------|------|
-| terminating (`--no-think`) | **48.0%** | real capability baseline |
-| thinking on | **11.0%** | Qwen3.5-0.8B's documented thinking-loop — 100% of traces never close `</think>`; an artifact of non-termination, not capability |
+| bench | mode | pass@1 | note |
+|-------|------|--------|------|
+| GSM8K | terminating (`--no-think`) | **48.0%** | real capability baseline |
+| GSM8K | thinking on | **11.0%** | documented thinking-loop — 100% of traces never close `</think>`; an artifact of non-termination, not capability |
+| MATH-500 | terminating (`--no-think`) | **33.0%** | floor — 46% still hit the token cap, under-counted |
 
-Thinking mode *lowers* the score by looping instead of stopping. Fixing
-termination while keeping real reasoning is what GRPO targets here. Scoreboard
-harness + reproduce steps in [`bench/`](./bench).
+Thinking mode *lowers* GSM8K by looping instead of stopping. Fixing termination
+while keeping real reasoning is what GRPO targets here. Scoreboard harness +
+reproduce steps in [`bench/`](./bench).
 
 ---
 

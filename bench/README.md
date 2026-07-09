@@ -57,16 +57,20 @@ python eval.py --model ./outputs/my_run --bench all --n 500
 
 ## Baseline (filled from the on-box run)
 
-Official `Qwen/Qwen3.5-0.8B`, GSM8K test, n=100, single sample, vLLM 0.24
-on an RTX 5060 Ti (2026-07-09):
+Official `Qwen/Qwen3.5-0.8B`, n=100, single sample, vLLM 0.24 on an
+RTX 5060 Ti (2026-07-09):
 
-| mode | pass@1 | truncated | note |
-|------|--------|-----------|------|
-| `--no-think` (terminating) | **48.0%** | 19% | real capability baseline |
-| thinking on | **11.0%** | 100% | documented thinking-loop: never closes `</think>`; an artifact of non-termination, not capability |
+| bench | mode | pass@1 | truncated | note |
+|-------|------|--------|-----------|------|
+| GSM8K | `--no-think` | **48.0%** | 19% | real capability baseline |
+| GSM8K | thinking on | **11.0%** | 100% | thinking-loop: never closes `</think>` — an artifact, not capability |
+| MATH-500 | `--no-think` | **33.0%** | 46% | floor — 46% still hit the 6144-tok cap, so under-counted |
 
-Thinking mode *lowers* the score (48% → 11%) because the model loops instead of
-terminating. Teaching it to reason **and** stop is what the GRPO run targets.
-MATH-500 baseline: pending (same run).
+Two findings:
+1. Thinking mode *lowers* GSM8K (48% → 11%) because the model loops instead of
+   terminating. Teaching it to reason **and** stop is what GRPO targets.
+2. Even without thinking, long outputs truncate (19% GSM8K, 46% MATH-500), so
+   these are **floors**. Raise `--max-tokens` / `--max-model-len` for a tighter
+   number before treating MATH-500 as the final bar.
 
 _Reproduce:_ `bash run_all.sh` (add `--no-think` per the commands above).
