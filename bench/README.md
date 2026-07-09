@@ -55,6 +55,13 @@ python eval.py --model ./outputs/my_run --bench all --n 500
 - `requirements.txt` — vllm>=0.17 (needed for the Gated-DeltaNet arch),
   transformers>=5.13; torch is assumed preinstalled
 
+## Targets to beat
+
+**Our GRPO-trained `Qwen3.5-0.8B-Base` must exceed the official model:**
+
+- **GSM8K: > 48.0%** (the reliable bar)
+- **MATH-500: > 33.0%** (a floor; raise the token budget for a firmer target)
+
 ## Baseline (filled from the on-box run)
 
 Official `Qwen/Qwen3.5-0.8B`, n=100, single sample, vLLM 0.24 on an
