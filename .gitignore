@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.DS_Store
+outputs/
+grpo_lora*/
+*.safetensors
+.hf_home/

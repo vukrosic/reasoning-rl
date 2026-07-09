@@ -1,0 +1,8 @@
+# GRPO reasoning-RL stack. Tested 2026-07-04 on a 16 GB RTX 5060 Ti / 5090
+# Vast.ai box (PyTorch template). Install unsloth first, then let it pull the
+# matching trl + vllm; pinning all three by hand fights unsloth's resolver.
+unsloth
+trl
+vllm
+datasets
+torch
